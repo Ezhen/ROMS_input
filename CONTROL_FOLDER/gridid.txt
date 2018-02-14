@@ -1,0 +1,191 @@
+# gridid definition file
+#
+id      = BCZ
+name    = BCZ
+grdfile = /home/eivanov/COAWST/Data/ROMS/Grid/Grid_improved_mask.nc
+N 	= 15
+grdtype = roms
+Vtrans  = 2
+theta_s = 5
+theta_b = 0.4
+Tcline	= 10
+#
+#
+id      = GRIDRECT
+name    = GRIDRECT
+grdfile = /home/eivanov/coawst_data_prrocessing/GRID_RECTANGULAR/Coarsest_improved.nc
+N 	= 15
+grdtype = roms
+Vtrans  = 2
+theta_s = 2
+theta_b = 3
+Tcline	= 10
+#
+#
+id      = NESTEDGRID
+name    = NESTEDGRID
+grdfile = /home/eivanov/COAWST_NEW/Data/ROMS/Grid/Nested_grid.nc
+N 	= 15
+grdtype = roms
+Vtrans  = 2
+theta_s = 2
+theta_b = 3
+Tcline	= 10
+#
+#
+id      = CHILD
+name    = CHILD
+grdfile = /home/eivanov/coawst_data_prrocessing/GRID_RECTANGULAR/Grid_Nesting/Nested.nc
+N 	= 15
+grdtype = roms
+Vtrans  = 2
+theta_s = 2
+theta_b = 3
+Tcline	= 10
+#
+#
+id      = TRANSCHILD
+name    = TRANSCHILD
+grdfile = /home/eivanov/coawst_data_prrocessing/GRID_RECTANGULAR/Bathymetry_parent_child/Transnested_grid.nc
+N 	= 15
+grdtype = roms
+Vtrans  = 2
+theta_s = 2
+theta_b = 3
+Tcline	= 10
+#
+#
+#
+#
+id      = GRIDRECT15
+name    = GRIDRECT15
+grdfile = /home/eivanov/coawst_data_prrocessing/OLD_GRID/GRID/Coarsest_improved_015.nc
+N 	= 15
+grdtype = roms
+Vtrans  = 2
+theta_s = 2
+theta_b = 3
+Tcline	= 10
+#
+#
+id      = GRID_TPXO
+name    = GRID_TPXO
+grdfile = /home/eivanov/coawst_data_prrocessing/GRID_RECTANGULAR/Coarsest_TPXO.nc
+N 	= 15
+grdtype = roms
+Vtrans  = 2
+theta_s = 2
+theta_b = 3
+Tcline	= 10
+#
+#
+id      = GRIDRED
+name    = GRIDRED
+grdfile = /home/eivanov/coawst_data_prrocessing/GRID_RECTANGULAR/Coarsest_reduced.nc
+N 	= 15
+grdtype = roms
+Vtrans  = 2
+theta_s = 2
+theta_b = 3
+Tcline	= 10
+#
+#
+id      = GRID_EXTENDED
+name    = GRID_EXTENDED
+grdfile = /home/eivanov/coawst_data_prrocessing/OLD_GRID/GRID/Coarsest_Extended.nc
+N 	= 15
+grdtype = roms
+Vtrans  = 2
+theta_s = 2
+theta_b = 3
+Tcline	= 10
+#
+#
+id      = GRIDRIV
+name    = GRIDRIV
+grdfile = /home/eivanov/coawst_data_prrocessing/GRID_RECTANGULAR/Coarsest_long_rivers.nc
+N 	= 15
+grdtype = roms
+Vtrans  = 2
+theta_s = 2
+theta_b = 3
+Tcline	= 10
+#
+#
+id      = GRIDDISCR
+name    = GRIDDISCR
+grdfile = /home/eivanov/coawst_data_prrocessing/GRID_RECTANGULAR/Coarsest_Vertical_Discretization.nc
+N 	= 20
+grdtype = roms
+Vtrans  = 2
+theta_s = 4
+theta_b = 4
+Tcline	= 10
+#
+#
+id      = GRIDDIS10
+name    = GRIDDIS10
+grdfile = /home/eivanov/coawst_data_prrocessing/GRID_RECTANGULAR/Coarsest_Vertical_Discretization_10.nc
+N 	= 10
+grdtype = roms
+Vtrans  = 2
+theta_s = 4
+theta_b = 4
+Tcline	= 10
+#
+#
+id      = GRIDDIS73
+name    = GRIDDIS73
+grdfile = /home/eivanov/coawst_data_prrocessing/GRID_RECTANGULAR/Coarsest_Vertical_Discretization_10_s_7_b_3.nc
+N 	= 10
+grdtype = roms
+Vtrans  = 2
+theta_s = 7
+theta_b = 3
+Tcline	= 5
+#
+#
+id      = GRIDDIS7310
+name    = GRIDDIS7310
+grdfile = /home/eivanov/coawst_data_prrocessing/GRID_RECTANGULAR/Coarsest_Vertical_Discretization_10_s_7_b_3_tcline_10.nc
+N 	= 10
+grdtype = roms
+Vtrans  = 2
+theta_s = 7
+theta_b = 3
+Tcline	= 10
+#
+#
+id      = COARSEST
+name    = COARSEST
+grdfile = /home/eivanov/coawst_data_prrocessing/GRID_RECTANGULAR/Coarsest.nc
+N 	= 15
+grdtype = roms
+Vtrans  = 2
+theta_s = 7
+theta_b = 3
+Tcline	= 10
+#
+#
+id      = FINER
+name    = FINER
+grdfile = /home/eivanov/coawst_data_prrocessing/GRID_RECTANGULAR/Finer.nc
+N 	= 15
+grdtype = roms
+Vtrans  = 2
+theta_s = 7
+theta_b = 3
+Tcline	= 10
+#
+#
+id      = WINDMILL
+name    = WINDMILL
+grdfile = /home/eivanov/coawst_data_prrocessing/GRID_RECTANGULAR/Second_Level_Nesting/Backup_Windfarm_bath_3.nc
+N 	= 15
+grdtype = roms
+Vtrans  = 2
+theta_s = 7
+theta_b = 3
+Tcline	= 10
+#
+#
