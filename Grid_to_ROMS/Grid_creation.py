@@ -13,11 +13,11 @@ import netCDF4
 from shapely.geometry import Polygon
 
 
-Lp=250
-Mp=250
+Lp=68
+Mp=90
 
 
-rr = netCDF4.Dataset('GEBCO_2.nc', 'r', format='NETCDF4')
+rr = netCDF4.Dataset('/media/sf_Swap-between-windows-linux/DATA_INPUT_ROMS/Bathymetry/GEBCO.nc', 'r', format='NETCDF4')
 lats = rr.variables['lat'][:]
 lons = rr.variables['lon'][:]
 topo = rr.variables['elevation'][:,:]*(-1)
@@ -36,23 +36,22 @@ lon2=9.9203 ; lat2=52.387
 lon1=-0.0573 ; lat1=62.319
 lon3=-4.9903 ; lat3=46.6325
 '''
-Lp=250
-Mp=250
-lon0=-16.5 ; lat0=55.9
-lon1=-5.05 ; lat1=46.2
-lon2=10 ; lat2=53.65
-lon3=-1.35 ; lat3=61.7
+
+lon0=0.48 ; lat0=49.53
+lon1=6.01 ; lat1=51.70
+lon2=3.34 ; lat2=54.17
+lon3=-2.14 ; lat3=52.09
 lonp = np.array([lon0, lon1, lon2, lon3])
 latp = np.array([lat0, lat1, lat2, lat3])
 beta = np.array([1, 1, 1, 1])
 
 #fig, ax = plt.subplots(figsize=(20,10))
-map = Basemap(projection='merc', llcrnrlon=-17, llcrnrlat=46, urcrnrlon=11, urcrnrlat=62, lat_ts=52, resolution='h')
+map = Basemap(projection='merc', llcrnrlon=-3.5, llcrnrlat=48.5, urcrnrlon=7, urcrnrlat=55, lat_ts=52, resolution='l')
 map.drawcoastlines()
 map.drawcountries()
 
 
-hgrd = pyroms.grid.Gridgen(lonp, latp, beta, (Mp+3,Lp+3), proj=map)
+hgrd = pyroms.grid.Gridgen(lonp, latp, beta, (Mp,Lp), proj=map)
 
 #hgrd.x_vert= hgrd.x_vert[210:560,0:270]
 #hgrd.y_vert= hgrd.y_vert[210:560,0:270]
@@ -225,7 +224,7 @@ ax.imshow(hgrd.mask_rho, origin='lower', interpolation='none')
 
 
 print 'fix minimum depth'
-hmin = 2
+hmin = 4
 #topo = pyroms_toolbox.change(topo, '<', hmin, hmin)
 
 print 'insure that depth is always deeper than hmin'
@@ -252,9 +251,9 @@ print 'Max Roughness value is: ', RoughMat.max()
 
 print 'vertical coordinate'
 theta_b = 3
-theta_s = 2
+theta_s = 7
 Tcline=10
-N = 15
+N = 20
 vgrd = pyroms.vgrid.s_coordinate_4(depth, theta_b, theta_s, Tcline, N, hraw=hraw)
 
 print "improving angles"
@@ -266,8 +265,8 @@ for i in range(len(hgrd.angle_rho)):
 
 
 print 'ROMS grid'
-grd_name = 'LOL'
+grd_name = 'Parent'
 grd = pyroms.grid.ROMS_Grid(grd_name, hgrd, vgrd)
 
 print 'write grid to netcdf file'
-pyroms.grid.write_ROMS_grid(grd, filename='Coarser_grid.nc')
+pyroms.grid.write_ROMS_grid(grd, filename='Parent.nc')
