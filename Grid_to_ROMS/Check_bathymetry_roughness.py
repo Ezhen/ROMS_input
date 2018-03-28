@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt; import numpy as np; from netCDF4 import Dataset; from bathy_smoother import *; import pyroms
 
 
-dstgrd = pyroms.grid.get_ROMS_grid('WINDMILL')
+dstgrd = pyroms.grid.get_ROMS_grid('Parent')
 
 h = dstgrd.vgrid.h.copy()
 
@@ -21,12 +21,12 @@ print 'vertical coordinate'
 theta_b = 3
 theta_s = 7
 Tcline=10
-N = 15
+N = 20
 vgrd = pyroms.vgrid.s_coordinate_4(dstgrd.vgrid.h, theta_b, theta_s, Tcline, N, hraw=hraw)
 
-grd = pyroms.grid.ROMS_Grid('WINDMILL', dstgrd.hgrid, vgrd)
+grd = pyroms.grid.ROMS_Grid('Parent', dstgrd.hgrid, vgrd)
 
-pyroms.grid.write_ROMS_grid(grd, filename='Windfarm_smoothed.nc')
+pyroms.grid.write_ROMS_grid(grd, filename='Parent_smoothed.nc')
 
 
 

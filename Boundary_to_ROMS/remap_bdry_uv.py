@@ -16,10 +16,7 @@ import _remapping
 
 from flood import flood
 
-class nctime(object):
-    pass
-
-def remap_bdry_uv(zero,l_time, src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=2, dst_dir='./'):
+def remap_bdry_uv(zero,l_time, src_file, src_grd, dst_grd, grid_name):
 
     # get time
     # get dimensions
@@ -52,7 +49,7 @@ def remap_bdry_uv(zero,l_time, src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=
     spval = -32767 #src_varu._FillValue
 
     # get weights file
-    wts_file = 'remap_weights_PUSSY_to_COARSEST_bilinear_t_to_rho.nc'
+    wts_file = 'remap_weights_PUSSY_to_%s_bilinear_t_to_rho.nc' %(grid_name)
 
     # build intermediate zgrid
     zlevel = -src_grd.z_t[::-1,0,0]
@@ -245,7 +242,7 @@ def remap_bdry_uv(zero,l_time, src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=
 	dst_v_west_cont = pyroms.remapping.z2roms(dst_vz[::-1, 0:Mp, 0:2], dst_grdz, dst_grd, Cpos='rho', spval=spval, flood=True, irange=(0,2), jrange=(0,Mp))
 	#print dst_u_south_cont.min(), dst_u_south_cont.max()
 
-	src_angle = pyroms.remapping.remap(src_grd.angle, 'remap_weights_PUSSY_to_COARSEST_bilinear_t_to_rho.nc', spval=spval)
+	src_angle = pyroms.remapping.remap(src_grd.angle, 'remap_weights_PUSSY_to_%s_bilinear_t_to_rho.nc' %(grid_name), spval=spval) 
 	dst_angle = dst_grd.hgrid.angle_rho
 	angle = dst_angle - src_angle
 	angle = np.tile(angle, (dst_grd.vgrid.N, 1, 1))

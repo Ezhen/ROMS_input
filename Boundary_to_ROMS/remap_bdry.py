@@ -16,7 +16,7 @@ import _remapping
 
 
 
-def remap_bdry(zero,l_time,src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=2, dst_dir='./'):
+def remap_bdry(zero,l_time,src_file, src_varname, src_grd, dst_grd, grid_name):
 
     print src_file
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
@@ -28,7 +28,7 @@ def remap_bdry(zero,l_time,src_file, src_varname, src_grd, dst_grd, dxy=20, cdep
         os.remove(dst_file)
     pyroms_toolbox.nc_create_roms_bdry_file(dst_file, dst_grd)
 
-    nc = netCDF.Dataset(dst_file, 'a', format='NETCDF3_64BIT')
+    nc = netCDF.Dataset(dst_file, 'a', format='NETCDF4')
     cdf = netCDF.Dataset(src_file) 
     spval= -32767
     time = cdf.variables['time'][zero:l_time]
@@ -43,12 +43,12 @@ def remap_bdry(zero,l_time,src_file, src_varname, src_grd, dst_grd, dxy=20, cdep
         Cpos = 'rho'
         z = src_grd.z_t
         Mp, Lp = dst_grd.hgrid.mask_rho.shape
-        wts_file = 'remap_weights_PUSSY_to_COARSEST_bilinear_t_to_rho.nc'
+        wts_file = 'remap_weights_PUSSY_to_%s_bilinear_t_to_rho.nc' %(grid_name)
         dst_varname = 'zeta'
         dimensions_time = ('zeta_time')
 	dst_varname_time = 'zeta_time'
 	long_name = "free-surface time"
-	unitstime = "days since 2004-01-01 00:00:00 GMT" 
+	unitstime = "days since 2006-01-01 00:00:00 GMT" 
 	calendar = "gregorian" 
         long_name = 'free-surface'
         dst_varname_north = 'zeta_north'
@@ -73,7 +73,7 @@ def remap_bdry(zero,l_time,src_file, src_varname, src_grd, dst_grd, dxy=20, cdep
         Cpos = 'rho'
         z = src_grd.z_t
         Mp, Lp = dst_grd.hgrid.mask_rho.shape
-        wts_file = 'remap_weights_PUSSY_to_COARSEST_bilinear_t_to_rho.nc'
+        wts_file = 'remap_weights_PUSSY_to_%s_bilinear_t_to_rho.nc' %(grid_name)
         dst_varname = 'temperature'
 	dimensions_time = ('temp_time')
 	dst_varname_time = 'temp_time'
@@ -102,7 +102,7 @@ def remap_bdry(zero,l_time,src_file, src_varname, src_grd, dst_grd, dxy=20, cdep
         Cpos = 'rho'
         z = src_grd.z_t
         Mp, Lp = dst_grd.hgrid.mask_rho.shape
-        wts_file = 'remap_weights_PUSSY_to_COARSEST_bilinear_t_to_rho.nc'
+        wts_file = 'remap_weights_PUSSY_to_%s_bilinear_t_to_rho.nc' %(grid_name)
         dst_varname = 'salinity'
         dimensions_time = ('salt_time')
 	dst_varname_time = 'salt_time'

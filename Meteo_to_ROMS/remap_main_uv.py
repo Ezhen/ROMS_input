@@ -15,13 +15,13 @@ from get_nc_Grid_HYCOM import get_nc_Grid_HYCOM
 from nc_create_roms_bdry_file_mine import nc_create_roms_bdry_file_mine
 
 
-def remap_main_uv(number,tart, tend, src_file, src_grd, dst_grd, dmax=20, cdepth=0, kk=0, dst_dir='./'):
+def remap_main_uv(number,tart, tend, src_file, src_grd, dst_grd, grid_name):
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
     dxy=5; cdepth=0; kk=0; Bpos = 't'; Cpos = 'rho'; spval = -32767
     cdf = Dataset(src_file)
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
     if number==1:
-    	dst_file = 'windFINER.nc'
+    	dst_file = 'wind%s.nc' %(grid_name)
     	nc_create_roms_bdry_file_mine(dst_file, dst_grd)
 	print 'lol'
     	cdf = Dataset(src_file, 'r', format='NETCDF4')
@@ -33,8 +33,8 @@ def remap_main_uv(number,tart, tend, src_file, src_grd, dst_grd, dmax=20, cdepth
     	time[0]=0
     	src_varu = cdf.variables['u10'][0,:,:]
     	src_varv = cdf.variables['v10'][0,:,:]
-  	wts_file = 'remap_weights_PUSSY_to_FINER_bilinear_t_to_rho.nc'
-	nc = Dataset(dst_file, 'a', format='NETCDF3_64BIT')
+  	wts_file = 'remap_weights_PUSSY_to_%s_bilinear_t_to_rho.nc' %(grid_name)
+	nc = Dataset(dst_file, 'a', format='NETCDF4')
    	nc.createDimension('wind_time', l_time)				###
   	nc.createVariable('wind_time', 'f4', 'wind_time')
  	nc.variables['wind_time'].long_name = 'wind time'
@@ -54,7 +54,7 @@ def remap_main_uv(number,tart, tend, src_file, src_grd, dst_grd, dmax=20, cdepth
  	nc.variables['Vwind'].units = 'meter second-1'
  	nc.variables['Vwind'].field = 'Vwind, scalar, series'
  	nc.variables['Vwind'].coordinates = 'lon lat'
-	src_angle = pyroms.remapping.remap(src_grd.angle,  'remap_weights_PUSSY_to_FINER_bilinear_t_to_rho.nc', spval=spval)
+	src_angle = pyroms.remapping.remap(src_grd.angle,  'remap_weights_PUSSY_to_%s_bilinear_t_to_rho.nc' %(grid_name), spval=spval)
   	dst_angle = dst_grd.hgrid.angle_rho
   	angle = dst_angle - src_angle
    	angle = np.tile(angle, (dst_grd.vgrid.N, 1, 1))
@@ -84,7 +84,7 @@ def remap_main_uv(number,tart, tend, src_file, src_grd, dst_grd, dmax=20, cdepth
 	print 'surface wind is written into the separated netcdf file'
    	nc.close()
     if number==2:
-    	dst_file = 'momentumFINER.nc'
+    	dst_file = 'momentum%s.nc' %(grid_name)
     	#pyroms_toolbox.nc_create_roms_bdry_file(dst_file, dst_grd)
 	nc_create_roms_bdry_file_mine(dst_file, dst_grd)
     	cdf = Dataset(src_file, 'r', format='NETCDF4')
@@ -94,8 +94,8 @@ def remap_main_uv(number,tart, tend, src_file, src_grd, dst_grd, dmax=20, cdepth
     	time[0]=0
     	src_varu = cdf.variables['nsss'][tart:tend,:,:]
     	src_varv = cdf.variables['ewss'][tart:tend,:,:]
-  	wts_file = 'remap_weights_PUSSY_to_FINER_bilinear_t_to_rho.nc'
-	nc = Dataset(dst_file, 'a', format='NETCDF3_64BIT')
+  	wts_file = 'remap_weights_PUSSY_to_%s_bilinear_t_to_rho.nc'
+	nc = Dataset(dst_file, 'a', format='NETCDF4')
    	nc.createDimension('sms_time', l_time)
   	nc.createVariable('sms_time', 'f4', 'sms_time')
  	nc.variables['sms_time'].long_name = 'wind time'
@@ -115,7 +115,7 @@ def remap_main_uv(number,tart, tend, src_file, src_grd, dst_grd, dmax=20, cdepth
  	nc.variables['svstr'].field = 'surface v-momentum stress, scalar, series'
    	nc.variables['svstr'].coordinates = 'lon lat'
 	#nc.variables['svstr'].coordinates = 'lon lat'
-	src_angle = pyroms.remapping.remap(src_grd.angle,  'remap_weights_PUSSY_to_FINER_bilinear_t_to_rho.nc', spval=spval)
+	src_angle = pyroms.remapping.remap(src_grd.angle,  'remap_weights_PUSSY_to_%s_bilinear_t_to_rho.nc' %(grid_name), spval=spval)
   	dst_angle = dst_grd.hgrid.angle_rho
   	angle = dst_angle - src_angle
    	angle = np.tile(angle, (dst_grd.vgrid.N, 1, 1))

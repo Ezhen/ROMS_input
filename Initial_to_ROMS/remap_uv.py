@@ -16,14 +16,14 @@ from flood import flood
 class nctime(object):
     pass
 
-def remap_uv(zero,l_time, src_file, src_grd, dst_grd, dmax=20, cdepth=0, kk=0, dst_dir='./'):
+def remap_uv(zero,l_time, src_file, src_grd, dst_grd, grid_name):
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
     cw=int(len(dst_grd.vgrid.Cs_r))
     dxy=5
     cdepth=0
     kk=0
     nctime.long_name = 'time'
-    nctime.units = 'seconds since 2004-01-01 00:00:00'
+    nctime.units = 'hours since 2006-01-01 00:00:00'
     cdf = Dataset(src_file)
  
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
@@ -49,7 +49,7 @@ def remap_uv(zero,l_time, src_file, src_grd, dst_grd, dmax=20, cdepth=0, kk=0, d
     spval = -32767 #src_varu._FillValue
 
     # get weights file
-    wts_file = 'remap_weights_PUSSY_to_FINER_bilinear_t_to_rho.nc'
+    wts_file = 'remap_weights_PUSSY_to_%s_bilinear_t_to_rho.nc' %(grid_name)
 
     # build intermediate zgrid
     zlevel = -src_grd.z_t[::-1,0,0]
@@ -89,7 +89,7 @@ def remap_uv(zero,l_time, src_file, src_grd, dst_grd, dmax=20, cdepth=0, kk=0, d
     #print 'remapping and rotating u and v from', src_grd.name, 'to', dst_grd.name
     #print 'time =', time
 
-    src_angle = pyroms.remapping.remap(src_grd.angle,  'remap_weights_PUSSY_to_FINER_bilinear_t_to_rho.nc', spval=spval)
+    src_angle = pyroms.remapping.remap(src_grd.angle,  'remap_weights_PUSSY_to_%s_bilinear_t_to_rho.nc' %(grid_name), spval=spval)
     dst_angle = dst_grd.hgrid.angle_rho
     angle = dst_angle - src_angle
     angle = np.tile(angle, (dst_grd.vgrid.N, 1, 1))
@@ -100,10 +100,6 @@ def remap_uv(zero,l_time, src_file, src_grd, dst_grd, dmax=20, cdepth=0, kk=0, d
     dst_v=np.zeros((l_time-zero, cw, Mp-1, Lp))
     dst_ubar=np.zeros((l_time-zero, Mp, Lp-1))
     dst_vbar=np.zeros((l_time-zero, Mp-1, Lp))
-    #dst_u=np.zeros((l_time-zero, 20, 142, 136))
-    #dst_v=np.zeros((l_time-zero, 20, 141, 137))
-    #dst_ubar=np.zeros((l_time-zero, 142, 136))
-    #dst_vbar=np.zeros((l_time-zero, 141, 137))
     for m in range(len(time)):
         src_uz = flood(cdf.variables['vomecrty'][zero+m,:,:,:], src_grd,  spval=spval)
         src_vz = flood(cdf.variables['vozocrtx'][zero+m,:,:,:], src_grd,  spval=spval)

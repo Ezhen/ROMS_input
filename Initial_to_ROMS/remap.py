@@ -15,9 +15,9 @@ from flood import flood
 class nctime(object):
     pass
 
-def remap(zero,l_time, src_file, src_varname, src_grd, dst_grd, dmax=20, cdepth=0, kk=0,dst_dir='./'):
+def remap(zero,l_time, src_file, src_varname, src_grd, dst_grd, grid_name):
     nctime.long_name = 'time'
-    nctime.units = 'hours since 2004-01-01 00:00:00'
+    nctime.units = 'hours since 2006-01-01 00:00:00'
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
     cw=int(len(dst_grd.vgrid.Cs_r))
     cdf = Dataset(src_file)
@@ -44,7 +44,7 @@ def remap(zero,l_time, src_file, src_varname, src_grd, dst_grd, dmax=20, cdepth=
         Cpos = 'rho'
         z = src_grd.z_t
         Mp, Lp = dst_grd.hgrid.mask_rho.shape
-        wts_file = 'remap_weights_PUSSY_to_FINER_bilinear_t_to_rho.nc'
+        wts_file = 'remap_weights_PUSSY_to_%s_bilinear_t_to_rho.nc' %(grid_name)
         dst_varname = 'zeta'
         dimensions = ('ocean_time', 'eta_rho', 'xi_rho')
         long_name = 'free-surface'
@@ -55,7 +55,7 @@ def remap(zero,l_time, src_file, src_varname, src_grd, dst_grd, dmax=20, cdepth=
         Cpos = 'rho'
         z = src_grd.z_t
         Mp, Lp = dst_grd.hgrid.mask_rho.shape
-        wts_file = 'remap_weights_PUSSY_to_FINER_bilinear_t_to_rho.nc'
+        wts_file = 'remap_weights_PUSSY_to_%s_bilinear_t_to_rho.nc' %(grid_name)
         dst_varname = 'temp'
         dimensions = ('ocean_time', 's_rho', 'eta_rho', 'xi_rho')
         long_name = 'potential temperature'
@@ -66,7 +66,7 @@ def remap(zero,l_time, src_file, src_varname, src_grd, dst_grd, dmax=20, cdepth=
         Cpos = 'rho'
         z = src_grd.z_t
         Mp, Lp = dst_grd.hgrid.mask_rho.shape
-        wts_file = 'remap_weights_PUSSY_to_FINER_bilinear_t_to_rho.nc'
+        wts_file = 'remap_weights_PUSSY_to_%s_bilinear_t_to_rho.nc' %(grid_name)
         dst_varname = 'salt'
         dimensions = ('ocean_time', 's_rho', 'eta_rho', 'xi_rho')
         long_name = 'salinity'
@@ -99,16 +99,13 @@ def remap(zero,l_time, src_file, src_varname, src_grd, dst_grd, dmax=20, cdepth=
 
     else:
         dst_var=np.zeros((l_time-zero, Mp, Lp))
-	for i in range(len(time)):
-		#src_varz = src_var[i,:,:]
-		xx=np.arange(-7,7,1);yy=np.arange(-7,7,1)
-		R=np.zeros((len(xx),len(yy)))
-		for j in range(len(xx)):
-			for k in range(len(yy)):
-				dst_var[i,j+17,k+31]=2*np.exp(-0.05*(xx[j]**2+yy[k]**2))
+	#for i in range(len(time)):
+	#	xx=np.arange(-7,7,1);yy=np.arange(-7,7,1)
+	#	R=np.zeros((len(xx),len(yy)))
+	#	for j in range(len(xx)):
+	#		for k in range(len(yy)):
+	#			dst_var[i,j+17,k+31]=2*np.exp(-0.05*(xx[j]**2+yy[k]**2))
 
     nc.variables['ocean_time'][:] = time/24.
-    print time
-    print np.shape(dst_var)
     nc.variables[dst_varname][:] = dst_var
     nc.close()
